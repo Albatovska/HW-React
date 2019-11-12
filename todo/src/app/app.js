@@ -6,7 +6,7 @@ import Search from '../search/search';
 import List from '../list/list';
 import Footer from '../footer/footer';
 import Filter from "../filter/filter";
-
+import CurrentDate from "../currentDate/currentDate";
 
 const data = [
   {title: "drink coffee", important: false, done: false, id: 1},
@@ -109,6 +109,7 @@ class App extends React.Component {
               changeStatus={this.changeStatus}
               remove = {this.remove}/>
           <Footer add={this.add}/>
+          <CurrentDate />
         </div>
       </div>
     )
