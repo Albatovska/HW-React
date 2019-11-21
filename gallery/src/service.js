@@ -12,7 +12,7 @@ export default class GalleryService {
     }
 
     getRandomPhotos = async() => {
-        const res = await fetch("https://api.unsplash.com/random", {
+        const res = await fetch("https://api.unsplash.com/photos/random", {
             method: "get",
             headers: {
                 "Authorization": "Client-ID e08eb72107a92ce923e9ab3125406b4a1bfc022c74000202b6e54ae7e1f12a70"
