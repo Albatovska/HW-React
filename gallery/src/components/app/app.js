@@ -1,46 +1,89 @@
 import React, { Component } from 'react';
-import "./app.css";
-import GalleryService from "../../service";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import RandomPhoto from '../random-photo/random-photo';
-
-const service = new GalleryService();
+import './app.css';
+import Header from '../header/header.js';
+import GalleryList from '../gallery-list/gallery-list';
+import Search from '../search/search';
 
 class App extends Component {
-    state = {
-        list: [],
-    };
+	state = {
+		error: false,
+	};
 
-    componentDidMount() {
-        service.getPhotos()
-            .then((list) => {
-                this.setState({ list })
-            })
-    }
+	componentDidCatch(error, errorInfo) {
+		this.setState({
+			error: true,
+		});
+	}
+	render() {
+		const { error } = this.state;
 
-    render() {
-        const { list } = this.state;
+		if (error) return <div>Something went wrong...</div>;
 
-        return ( <div className = "app" >
-            <RandomPhoto / >
-            <div className={"gallery-section"}>
-                <div className="gallery-container">
-             {
-                list.map((el) => {
-                    return ( 
-                        <div className={"image-item"}>
-                            <img 
-                                key = { el.id }
-                                src = { el.urls.small }
-                                alt = "" / >
-                        </div>
-                    )
-                })
-            }
-            </div>
-            </div>
-             </div>
-        );
-    }
+		return (
+			<div className="app">
+				<Router>
+					<Header />
+					<Switch>
+						<Route
+							path={'/'}
+							render={() => {
+								return (
+									<>
+										<RandomPhoto />
+										<GalleryList />
+									</>
+								);
+							}}
+							exact
+						/>
+						<Route
+							path={'/animal'}
+							render={() => {
+								return <GalleryList id={3330452} />;
+							}}
+							exact
+						/>
+						<Route
+							path={'/film'}
+							render={() => {
+								return <GalleryList id={3679976} />;
+							}}
+							exact
+						/>
+						<Route
+							path={'/foods&drink'}
+							render={() => {
+								return <GalleryList id={4172814} />;
+							}}
+							exact
+						/>
+						<Route
+							path={'/nature'}
+							render={() => {
+								return <GalleryList id={244339} />;
+							}}
+							exact
+						/>
+						<Route
+							path={'/search'}
+							render={() => {
+								return <Search />;
+							}}
+							exact
+						/>
+						<Route
+							render={() => {
+								return <h2>Page Not Found</h2>;
+							}}
+							exact
+						/>
+					</Switch>
+				</Router>
+			</div>
+		);
+	}
 }
 
 export default App;
