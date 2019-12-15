@@ -1,89 +1,105 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import RandomPhoto from '../random-photo/random-photo';
+import React from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import RandomPhoto from '../pages/random-photo/random-photo';
 import './app.css';
 import Header from '../header/header.js';
 import GalleryList from '../gallery-list/gallery-list';
+import HomePage from '../pages/home-page/home-page';
+import PhotoCard from '../pages/photo-card/photo-card';
 import Search from '../search/search';
+import UserPage from '../pages/user-page/user-page';
 
-class App extends Component {
-	state = {
-		error: false,
-	};
-
-	componentDidCatch(error, errorInfo) {
-		this.setState({
-			error: true,
-		});
-	}
-	render() {
-		const { error } = this.state;
-
-		if (error) return <div>Something went wrong...</div>;
-
-		return (
-			<div className="app">
-				<Router>
-					<Header />
-					<Switch>
-						<Route
-							path={'/'}
-							render={() => {
-								return (
-									<>
-										<RandomPhoto />
-										<GalleryList />
-									</>
-								);
-							}}
-							exact
-						/>
-						<Route
-							path={'/animal'}
-							render={() => {
-								return <GalleryList id={3330452} />;
-							}}
-							exact
-						/>
-						<Route
-							path={'/film'}
-							render={() => {
-								return <GalleryList id={3679976} />;
-							}}
-							exact
-						/>
-						<Route
-							path={'/foods&drink'}
-							render={() => {
-								return <GalleryList id={4172814} />;
-							}}
-							exact
-						/>
-						<Route
-							path={'/nature'}
-							render={() => {
-								return <GalleryList id={244339} />;
-							}}
-							exact
-						/>
-						<Route
-							path={'/search'}
-							render={() => {
-								return <Search />;
-							}}
-							exact
-						/>
-						<Route
-							render={() => {
-								return <h2>Page Not Found</h2>;
-							}}
-							exact
-						/>
-					</Switch>
-				</Router>
-			</div>
-		);
-	}
-}
+const App = () => {
+	return (
+		<div className="app">
+			<Header headerId={2} item2={'string'} />
+			<Switch>
+				<Route
+					path={'/'}
+					render={() => {
+						return <HomePage />;
+					}}
+					exact
+				/>
+				<Route
+					path={'/all/'}
+					render={() => {
+						return <HomePage />;
+					}}
+					exact
+				/>
+				<Route
+					path={'/animal/:id'}
+					render={({ match }) => {
+						return <GalleryList id={match.params.id} />;
+					}}
+					exact
+				/>
+				<Route
+					path={'/films/:id'}
+					render={({ match }) => {
+						return <GalleryList id={match.params.id} />;
+					}}
+					exact
+				/>
+				<Route
+					path={'/food&drink/:id'}
+					render={({ match }) => {
+						return <GalleryList id={match.params.id} />;
+					}}
+					exact
+				/>
+				<Route
+					path={'/nature/:id'}
+					render={({ match }) => {
+						return <GalleryList id={match.params.id} />;
+					}}
+					exact
+				/>
+				<Route
+					path={'/search/'}
+					render={() => {
+						return <Search />;
+					}}
+					exact
+				/>
+				<Route
+					path={'/randomPhoto/'}
+					render={() => {
+						return <RandomPhoto />;
+					}}
+					exact
+				/>
+				<Route
+					path={'/photo/:id'}
+					render={({ match }) => {
+						return <PhotoCard id={match.params.id} />;
+					}}
+					exact
+				/>
+				<Route
+					path={'/login/'}
+					render={() => {
+						const login = false;
+						if (!login) return <Redirect to={'/all/'} />;
+						return <div>Some important content</div>;
+					}}
+					exact
+				/>
+				<Route
+					path={'/users/:username'}
+					render={({ match }) => <UserPage username={match.params.username} />}
+					exact
+				/>
+				<Route
+					render={() => {
+						return <h2 className="page-not-found">Page Not Found</h2>;
+					}}
+					exact
+				/>
+			</Switch>
+		</div>
+	);
+};
 
 export default App;

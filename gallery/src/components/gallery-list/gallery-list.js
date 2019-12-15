@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import GalleryService from '../../service';
-import Loader from '../loader/loader';
 import './gallery-list.css';
+import { Link } from 'react-router-dom';
 
 const service = new GalleryService();
 
@@ -13,6 +13,23 @@ export default class GalleryList extends Component {
 	};
 
 	componentDidMount() {
+		this.getPhotos();
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		if (prevProps.id !== this.props.id) {
+			this.setState(
+				{
+					list: [],
+					page: 1,
+					loading: true,
+				},
+				() => this.getPhotos()
+			);
+		}
+	}
+
+	getPhotos = () => {
 		const { page } = this.state;
 		const { id } = this.props;
 		service.getPhotos(page, id).then(list => {
@@ -22,7 +39,8 @@ export default class GalleryList extends Component {
 				loading: false,
 			});
 		});
-	}
+	};
+
 	showMorePhotos = () => {
 		const { page, list } = this.state;
 		const { id } = this.props;
@@ -40,23 +58,26 @@ export default class GalleryList extends Component {
 
 	render() {
 		const { list, loading } = this.state;
+
 		return (
 			<div className={'gallery-section'}>
 				<div className="gallery-container">
-					{' '}
 					{list.map(el => {
 						return (
-							<div className={'image-item'} key={el.id}>
+							<Link to={`/photo/${el.id}`} className={`photo-item`} key={el.id}>
 								<div className="img">
 									<img key={el.id} src={el.urls.small} alt="" />
-									<div className="autor"> </div>
-									<div className="avatar"> </div>
 								</div>
-							</div>
+							</Link>
 						);
-					})}{' '}
-				</div>{' '}
-				<Loader loading={loading} showMorePhotos={this.showMorePhotos} />
+					})}
+				</div>
+				<div className="loader-box">
+					<span
+						onClick={() => this.showMorePhotos()}
+						className={`glyphicon glyphicon-refresh loader ${loading ? 'active' : ''}`}
+					></span>
+				</div>
 			</div>
 		);
 	}

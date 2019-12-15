@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import GalleryService from '../../service';
+import GalleryService from '../../../service';
+import './random-photo';
 
 const service = new GalleryService();
 
@@ -16,11 +17,11 @@ class RandomPhoto extends Component {
 	render() {
 		const { randomPhoto } = this.state;
 		return (
-			<div>
+			<div className="slider">
 				<img
 					className={'image image-random'}
 					key={randomPhoto.id}
-					src={typeof randomPhoto.urls !== 'undefined' ? randomPhoto.urls.regular : ''}
+					src={typeof randomPhoto.urls !== 'undefined' ? randomPhoto.urls.small : ''}
 					alt="random-photo"
 				/>
 			</div>

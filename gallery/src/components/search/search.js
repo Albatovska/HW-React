@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import GalleryService from '../../service';
-import GalleryList from '../gallery-list/gallery-list';
+// import GalleryList from '../gallery-list/gallery-list';
 import Loader from '../loader/loader';
 
 import './search.css';
