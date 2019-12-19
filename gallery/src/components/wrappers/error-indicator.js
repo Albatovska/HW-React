@@ -1,22 +1,21 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react';
 
-export default class ErrorIndicator extends Component{
+export default class ErrorIndicator extends Component {
+	state = {
+		hasError: false,
+	};
 
-    state = {
-        hasError: false,
-    };
+	componentDidCatch(error, errorInfo) {
+		this.setState({
+			hasError: true,
+		});
+	}
 
-    componentDidCatch(error, errorInfo) {
-        this.setState({
-            hasError: true
-        })
-    }
+	render() {
+		const { hasError } = this.state;
 
-    render(){
-        const { hasError } = this.state;
+		if (hasError) return <div className={'error'}>Something went wrong.... :(</div>;
 
-        if(hasError) return <div className={"error"}>Something went wrong.... :(</div>;
-
-        return this.props.children
-    }
+		return this.props.children;
+	}
 }

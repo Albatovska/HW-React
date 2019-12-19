@@ -1,17 +1,17 @@
 import React from 'react';
 import './slider.css';
+import { withData } from '../hoc/with-data';
 
 const Slider = props => {
-	const { color, urls = {} } = props.data;
+	const { urls } = props.data;
 	return (
 		<div
 			className={'slider'}
 			style={{
-				backgroundColor: color,
-				backgroundImage: `url(${urls.regular})`,
+				backgroundImage: `url(${urls.small})`,
 			}}
 		></div>
 	);
 };
 
-export default Slider;
+export default withData(Slider);
